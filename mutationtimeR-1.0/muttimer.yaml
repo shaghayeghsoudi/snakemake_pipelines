@@ -1,0 +1,28 @@
+lcr-modules:
+    
+    muttimer:
+
+        dirs: 
+            _parent: "results/icgc_dart/mutationtimer-test" #example for combining with Battenberg module: "results/battenberg-1.0_liftover-1.1"
+        inputs:
+            # Available wildcards: {seq_type} {genome_build} {tumour_id} {normal_id} {pair_status} {base_name}
+            maf: "results/icgc_dart/slms-3_vcf2maf_current/level_3/augmented_mafs/99-outputs/genome--hs37d5/{tumour_id}--{normal_id}--matched_final_augmented.maf" 
+            cellularity: "results/icgc_dart/battenberg_current/99-outputs/txt/{seq_type}--{genome_build}/{tumour_id}--{normal_id}_cellularity_ploidy.txt" # battenberg/99-outputs/txt/{seq_type}--{genome_build}/{tumour_id}--{normal_id}_subclones.txt
+            subclones: "results/icgc_dart/battenberg_current/99-outputs/txt/{seq_type}--{genome_build}/{tumour_id}--{normal_id}_subclones.txt" # battenberg/99-outputs/txt/{seq_type}--{genome_build}/{tumour_id}--{normal_id}_cellularity_ploidy.txt
+            clust: "results/icgc_dart/dpclust-1.0/99-outputs/{seq_type}--{genome_build}/{tumour_id}--{normal_id}_2000iters_1000burnin_bestClusterInfo.txt" # battenberg/02-battenberg/{seq_type}--{genome_build}/{tumour_id}--{normal_id}/{tumour_id}_rho_and_psi.txt
+            
+
+        conda_envs:
+            muttimer: "{MODSDIR}/envs/mutationtimer.yaml"       
+            
+        scripts: 
+            mtr_make_inputs: "{MODSDIR}/src/make_mtr_inputs.R"
+            mtr_main: "{MODSDIR}/src/run_mtr.R"
+
+        pairing_config:
+            genome:
+                run_paired_tumours: True
+                run_unpaired_tumours_with: null
+                run_paired_tumours_as_unpaired: False
+
+
